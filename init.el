@@ -72,6 +72,13 @@
   :init
   (global-corfu-mode))
 
+(use-package eglot
+  :straight nil
+  :config
+  (add-to-list 'eglot-server-programs
+	       '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+  :hook (python-mode . eglot-ensure))
+
 ;; Global config
 (use-package emacs
   :init
