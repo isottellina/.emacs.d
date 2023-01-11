@@ -13,6 +13,9 @@
   (load bootstrap-file nil 'nomessage))
 (setq straight-use-package-by-default t)
 
+;; Quality of life
+(use-package no-littering)
+
 ;; UI packages
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -68,7 +71,6 @@
 	completion-styles '(basic))
   :init
   (global-corfu-mode))
-
 
 ;; Global config
 (use-package emacs
