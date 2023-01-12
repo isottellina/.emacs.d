@@ -50,6 +50,17 @@
   :init
   (vertico-mode))
 
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles orderless partial-completion))))
+  (orderless-matching-styles
+   '(orderless-literal
+     orderless-prefixes
+     orderless-initialism
+     orderless-regexp)))
+
 (use-package vertico-directory
   ; Package is in vertico, so straight will try to
   ; install it via a repo but it shouldn't.
