@@ -25,10 +25,17 @@
 
 (column-number-mode)
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 (use-package doom-themes
   :config
   (setq doom-themes-enable-italic t)
   (load-theme 'doom-1337 t))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package marginalia
   :init
