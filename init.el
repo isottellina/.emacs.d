@@ -82,7 +82,14 @@
   (which-key-mode))
 
 ;; DevX packages
-(use-package magit)
+(use-package magit
+  :bind
+  (:map vc-prefix-map ("B" . #'magit-blame-addition))
+  :config
+  (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1
+	magit-blame-echo-style 'headings
+	magit-blame-read-only t))
+
 (use-package corfu
   :config
   (setq corfu-auto t
