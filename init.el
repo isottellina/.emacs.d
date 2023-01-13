@@ -108,6 +108,18 @@
   :init
   (global-corfu-mode))
 
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) 
+  (kind-icon-blend-background nil)
+  (kind-icon-blend-frac 0.08)
+  (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  (add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache))))
+
 (use-package eglot
   :straight nil
   :config
