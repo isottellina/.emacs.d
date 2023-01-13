@@ -33,6 +33,7 @@
 
 (use-package all-the-icons-completion
   :after (marginalia all-the-icons)
+  :if (display-graphic-p)
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
   (all-the-icons-completion-mode))
@@ -103,10 +104,13 @@
 
 (use-package corfu
   :config
-  (setq corfu-auto t
-	completion-styles '(basic))
+  (setq corfu-auto t)
   :init
   (global-corfu-mode))
+
+(use-package corfu-terminal
+  :init
+  (corfu-terminal-mode +1))
 
 (use-package kind-icon
   :after corfu
@@ -125,7 +129,8 @@
   :config
   (add-to-list 'eglot-server-programs
 	       '((python-mode python-ts-mode) . ("python" "-m" "pylsp")))
-  :hook (python-mode . eglot-ensure))
+  :hook ((python-mode . eglot-ensure)
+	 (rust-ts-mode . eglot-ensure)))
 
 ;; Python
 (setenv "WORKON_HOME" "~/Envs")
