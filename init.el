@@ -107,12 +107,17 @@
   :straight nil
   :config
   (add-to-list 'eglot-server-programs
-	       '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+	       '((python-mode python-ts-mode) . ("python" "-m" "pylsp")))
   :hook (python-mode . eglot-ensure))
+
+;; Python
+(setenv "WORKON_HOME" "~/Envs")
+(use-package pyvenv)
 
 ;; Global config
 (use-package emacs
   :init
   (setq tab-always-indent 'complete)
   :bind (("M-o b" . split-window-right)
-	 ("M-o v" . split-window-below)))
+	 ("M-o v" . split-window-below)
+	 ("M-o M-o" . other-window)))
