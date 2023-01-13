@@ -14,7 +14,10 @@
 (setq straight-use-package-by-default t)
 
 ;; Quality of life
-(use-package no-littering)
+(use-package no-littering
+  :config
+   (setq auto-save-file-name-transforms
+	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 ;; UI packages
 (menu-bar-mode -1)
@@ -44,6 +47,8 @@
   (dashboard-setup-startup-hook))
 
 (use-package marginalia
+  :config
+  (setq marginalia-align 'right)
   :init
   (marginalia-mode))
 
@@ -118,6 +123,7 @@
 (use-package emacs
   :init
   (setq tab-always-indent 'complete)
-  :bind (("M-o b" . split-window-right)
-	 ("M-o v" . split-window-below)
-	 ("M-o M-o" . other-window)))
+  :bind (("M-o M-b" . split-window-right)
+	 ("M-o M-v" . split-window-below)
+	 ("M-o M-o" . other-window)
+	 ("M-o M-x" . delete-window)))
