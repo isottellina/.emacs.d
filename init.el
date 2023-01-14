@@ -89,9 +89,18 @@
 	xref-show-definitions-function #'consult-xref)
   :bind (("C-x b" . consult-buffer)))
 
+(use-package embark)
+(use-package embark-consult)
+
 (use-package which-key
   :init
   (which-key-mode))
+
+(use-package ace-window
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+	aw-dispatch-always t)
+  :bind ("M-o" . ace-window))
 
 ;; DevX packages
 (use-package magit
@@ -137,10 +146,8 @@
 (use-package pyvenv)
 
 ;; Global config
+
 (use-package emacs
   :init
-  (setq tab-always-indent 'complete)
-  :bind (("M-o M-b" . split-window-right)
-	 ("M-o M-v" . split-window-below)
-	 ("M-o M-o" . other-window)
-	 ("M-o M-x" . delete-window)))
+  (setq tab-always-indent 'complete
+	use-short-answers t))
