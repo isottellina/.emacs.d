@@ -103,6 +103,7 @@
   :bind ("M-o" . ace-window))
 
 ;; DevX packages
+(add-hook 'before-save-hook 'whitespace-cleanup)
 (use-package magit
   :bind
   (:map vc-prefix-map ("B" . #'magit-blame-addition))
@@ -137,13 +138,21 @@
   :straight nil
   :config
   (add-to-list 'eglot-server-programs
-	       '((python-mode python-ts-mode) . ("python" "-m" "pylsp")))
+	       '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   :hook ((python-mode . eglot-ensure)
 	 (rust-ts-mode . eglot-ensure)))
 
+(use-package format-all
+  :bind
+  ("C-c f" . format-all-buffer))
+
 ;; Python
-(setenv "WORKON_HOME" "~/Envs")
-(use-package pyvenv)
+(use-package pyvenv
+  :config
+  (setenv "WORKON_HOME" "~/Envs"))
+
+
+(use-package py-isort)
 
 ;; Global config
 
