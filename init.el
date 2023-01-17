@@ -111,7 +111,8 @@
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1
         magit-blame-echo-style 'headings
-        magit-blame-read-only t))
+        magit-blame-read-only t
+        magit-save-repository-buffers nil))
 
 (use-package corfu
   :config
@@ -153,7 +154,18 @@
   (setenv "WORKON_HOME" "~/Envs"))
 
 
-(use-package py-isort)
+(use-package py-isort
+  :commands py-isort-buffer)
+
+;; Rust
+(use-package rust-mode
+  :after eglot
+  :commands rust-mode
+  :hook (rust-mode . eglot-ensure))
+
+(use-package cargo
+  :after rust-mode
+  :commands cargo-minor-mode)
 
 ;; Global config
 
