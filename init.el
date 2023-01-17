@@ -16,8 +16,8 @@
 ;; Quality of life
 (use-package no-littering
   :config
-   (setq auto-save-file-name-transforms
-	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
 
 ;; UI packages
 (menu-bar-mode -1)
@@ -27,6 +27,7 @@
 (set-frame-font "Hack 9")
 
 (column-number-mode)
+(global-display-line-numbers-mode)
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -54,11 +55,11 @@
   (marginalia-mode))
 
 (use-package vertico
-  :straight (vertico :files ("*.el" "extensions/*.el")) 
+  :straight (vertico :files ("*.el" "extensions/*.el"))
   :config
   (setq vertico-resize nil
-	vertico-count 20
-	vertico-cycle t)
+        vertico-count 20
+        vertico-cycle t)
   :init
   (vertico-mode))
 
@@ -74,19 +75,19 @@
      orderless-regexp)))
 
 (use-package vertico-directory
-  ; Package is in vertico, so straight will try to
-  ; install it via a repo but it shouldn't.
+                                        ; Package is in vertico, so straight will try to
+                                        ; install it via a repo but it shouldn't.
   :straight nil
   :after vertico
   :bind (:map vertico-map
-	      ("DEL" . vertico-directory-delete-char)
-	      ("M-DEL" . vertico-directory-delete-word)))
-  
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)))
+
 (use-package consult
   :config
   :init
   (setq xref-show-xrefs-function #'consult-xref
-	xref-show-definitions-function #'consult-xref)
+        xref-show-definitions-function #'consult-xref)
   :bind (("C-x b" . consult-buffer)))
 
 (use-package embark)
@@ -99,7 +100,7 @@
 (use-package ace-window
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-	aw-dispatch-always t)
+        aw-dispatch-always t)
   :bind ("M-o" . ace-window))
 
 ;; DevX packages
@@ -109,8 +110,8 @@
   (:map vc-prefix-map ("B" . #'magit-blame-addition))
   :config
   (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1
-	magit-blame-echo-style 'headings
-	magit-blame-read-only t))
+        magit-blame-echo-style 'headings
+        magit-blame-read-only t))
 
 (use-package corfu
   :config
@@ -126,7 +127,7 @@
   :after corfu
   :custom
   (kind-icon-use-icons t)
-  (kind-icon-default-face 'corfu-default) 
+  (kind-icon-default-face 'corfu-default)
   (kind-icon-blend-background nil)
   (kind-icon-blend-frac 0.08)
   (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
@@ -138,9 +139,9 @@
   :straight nil
   :config
   (add-to-list 'eglot-server-programs
-	       '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+               '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   :hook ((python-mode . eglot-ensure)
-	 (rust-ts-mode . eglot-ensure)))
+         (rust-ts-mode . eglot-ensure)))
 
 (use-package format-all
   :bind
@@ -158,5 +159,6 @@
 
 (use-package emacs
   :init
-  (setq tab-always-indent 'complete
-	use-short-answers t))
+  (setq-default tab-always-indent 'complete
+                use-short-answers t
+                indent-tabs-mode nil))
