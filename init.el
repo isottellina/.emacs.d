@@ -114,6 +114,11 @@
         magit-blame-read-only t
         magit-save-repository-buffers nil))
 
+(use-package forge
+  :after magit)
+(use-package ghub
+  :after ghub)
+
 (use-package corfu
   :config
   (setq corfu-auto t)
@@ -166,6 +171,9 @@
 (use-package cargo
   :after rust-mode
   :commands cargo-minor-mode)
+
+;; Terraform
+(use-package terraform-mode)
 
 ;; Global config
 
