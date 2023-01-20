@@ -162,6 +162,10 @@
 (use-package py-isort
   :commands py-isort-buffer)
 
+;; Web
+(use-package restclient
+  :mode ("\\.rc\\'" . restclient-mode))
+
 ;; Rust
 (use-package rust-mode
   :after eglot
