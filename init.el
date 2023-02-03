@@ -70,7 +70,7 @@
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles orderless partial-completion))))
+  (completion-category-overrides '((file (styles basic orderless partial-completion))))
   (orderless-matching-styles
    '(orderless-literal
      orderless-prefixes
