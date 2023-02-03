@@ -147,7 +147,12 @@
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   :hook ((python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)))
+
+(use-package language-id
+  :straight (language :type git :host github :repo "lassik/emacs-language-id"
+                      :fork (:host github :repo "isottellina/emacs-language-id" :branch "add-ts-modes")))
 
 (use-package format-all
   :bind
@@ -182,6 +187,11 @@
 ;; Global config
 
 (use-package emacs
+  :mode (("Dockerfile\\(?:\\'\\|\\.[^z-a]\\)" . dockerfile-ts-mode)
+         ("\\.yml\\'" . yaml-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode))
+  :config
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
   :init
   (setq-default tab-always-indent 'complete
                 use-short-answers t
