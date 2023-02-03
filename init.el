@@ -46,7 +46,10 @@
 
 (use-package dashboard
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents . 5)
+                          (projects . 5)
+                          (agenda . 5))))
 
 (use-package marginalia
   :config
@@ -92,6 +95,12 @@
 
 (use-package embark)
 (use-package embark-consult)
+
+(use-package projectile
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package which-key
   :init
@@ -181,14 +190,17 @@
   :after rust-mode
   :commands cargo-minor-mode)
 
-;; Terraform
+;; Minor languages
 (use-package terraform-mode)
+(use-package yaml-mode
+  :mode ("\\.ya?ml" . yaml-mode))
 
 ;; Global config
+(use-package org
+  :custom (org-agenda-files '("/home/louise/org/agenda.org")))
 
 (use-package emacs
   :mode (("Dockerfile\\(?:\\'\\|\\.[^z-a]\\)" . dockerfile-ts-mode)
-         ("\\.yml\\'" . yaml-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
