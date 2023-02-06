@@ -159,10 +159,6 @@
          (python-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)))
 
-(use-package language-id
-  :straight (language :type git :host github :repo "lassik/emacs-language-id"
-                      :fork (:host github :repo "isottellina/emacs-language-id" :branch "add-ts-modes")))
-
 (use-package format-all
   :bind
   ("C-c f" . format-all-buffer))
