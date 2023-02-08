@@ -157,6 +157,8 @@
                '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   :hook ((python-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (c++-ts-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)))
 
 (use-package format-all
@@ -185,6 +187,13 @@
 (use-package cargo
   :after rust-mode
   :commands cargo-minor-mode)
+
+;; C/C++
+(use-package cc-mode
+  :config
+  (setq c-basic-offset 4
+        c-default-style "k&r"))
+(use-package cmake-mode)
 
 ;; Minor languages
 (use-package terraform-mode)
