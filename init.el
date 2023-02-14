@@ -14,6 +14,7 @@
 (setq straight-use-package-by-default t)
 
 ;; Quality of life
+(use-package general)
 (use-package no-littering
   :config
   (setq auto-save-file-name-transforms
@@ -91,13 +92,24 @@
   :init
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-  :bind (("C-x b" . consult-buffer)))
+  :general
+  (general-define-key
+   "C-x b" 'consult-buffer
+   "C-c s" 'consult-ripgrep))
+
+(use-package xref
+  :general
+  (general-define-key
+   :prefix "C-c d"
+   "d" 'xref-find-definitions
+   "r" 'xref-find-references))
 
 (use-package embark)
 (use-package embark-consult)
 
 (use-package projectile
   :config
+  (setq projectile-switch-project-action 'projectile-commander)
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
@@ -202,13 +214,24 @@
 
 ;; Global config
 (use-package org
-  :custom (org-agenda-files '("/home/louise/org/agenda.org")))
+  :general
+  (general-define-key
+   :prefix "C-c n"
+   "c" 'org-capture
+   "a" 'org-agenda)
+  :custom
+  (org-agenda-files  '("/home/louise/org/agenda.org")))
 
 (use-package emacs
   :mode (("Dockerfile\\(?:\\'\\|\\.[^z-a]\\)" . dockerfile-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+  (general-define-key
+    :prefix "C-é"
+    "C-b" 'previous-buffer
+    "C-p" 'next-buffer)
+
   :init
   (setq-default tab-always-indent 'complete
                 use-short-answers t
