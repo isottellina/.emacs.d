@@ -164,7 +164,6 @@
   (add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache))))
 
 (use-package eglot
-  :straight nil
   :config
   (add-to-list 'eglot-server-programs
                '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
@@ -220,6 +219,9 @@
    :prefix "C-c n"
    "c" 'org-capture
    "a" 'org-agenda)
+  :config
+  (setq org-directory "/home/louise/org")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
   :custom
   (org-agenda-files  '("/home/louise/org/agenda.org")))
 
