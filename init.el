@@ -19,13 +19,14 @@
   :config
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
+(use-package vterm)
 
 ;; UI packages
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(set-frame-font "Hack 9")
+(set-frame-font "PragmataPro Mono Liga 9")
 
 (column-number-mode)
 (global-display-line-numbers-mode)
@@ -222,17 +223,59 @@
   :custom
   (org-agenda-files  '("/home/louise/org/agenda.org")))
 
+(use-package ligature
+  :config
+  (ligature-set-ligatures 't '("[ERROR]" "[DEBUG]" "[INFO]" "[WARN]" "[WARNING]"
+                               "[ERR]" "[FATAL]" "[TRACE]" "[FIXME]" "[TODO]"
+                               "[BUG]" "[NOTE]" "[HACK]" "[MARK]"))
+  (ligature-set-ligatures 'prog-mode
+                          '("!!" "!=" "!==" "!!!" "!≡" "!≡≡" "!>" "!=<" "#("
+                            "#_" "#{" "#?" "#>" "##" "#_(" "%=" "%>" "%>%" "%<%"
+                            "&%" "&&" "&*" "&+" "&-" "&/" "&=" "&&&" "&>" "$>"
+                            "***" "*=" "*/" "*>" "++" "+++" "+=" "+>" "++=" "--"
+                            "-<" "-<<" "-=" "->" "->>" "---" "-->" "-+-" "-\\/"
+                            "-|>" "-<|" ".." "..." "..<" ".>" ".~" ".=" "/*" "//"
+                            "/>" "/=" "/==" "///" "/**" ":::" "::" ":=" ":≡" ":>"
+                            ":=>" ":(" ":-(" ":)" ":-)" ":/" ":\\" ":3" ":D" ":P"
+                            ":>:" ":<:" "<$>" "<*" "<*>" "<+>" "<-" "<<" "<<<" "<<="
+                            "<=" "<=>" "<>" "<|>" "<<-" "<|" "<=<" "<~" "<~~" "<<~"
+                            "<$" "<+" "<!>" "<@>" "<#>" "<%>" "<^>" "<&>" "<?>" "<.>"
+                            "</>" "<\\>" "<\">" "<:>" "<~>" "<**>" "<<^" "<!" "<@"
+                            "<#" "<%" "<^" "<&" "<?" "<." "</" "<\\" "<\"" "<:" "<->"
+                            "<!--" "<--" "<~<" "<==>" "<|-" "<<|" "<-<" "<-->" "<<=="
+                            "<==" "=<<" "==" "===" "==>" "=>" "=~" "=>>" "=/=" "=~="
+                            "==>>" "≡≡" "≡≡≡" "≡:≡" ">-" ">=" ">>" ">>-" ">>=" ">>>"
+                            ">=>" ">>^" ">>|" ">!=" ">->" "??" "?~" "?=" "?>" "???"
+                            "?." "^=" "^." "^?" "^.." "^<<" "^>>" "^>" "\\\\" "\\>"
+                            "\\/-" "@>" "|=" "||" "|>" "|||" "|+|" "|->" "|-->" "|=>"
+                            "|==>" "|>-" "|<<" "||>" "|>>" "|-" "||-" "~=" "~>" "~~>"
+                            "~>>" "[[" "]]" "\">" "_|_"))
+  (global-ligature-mode))
+
 (use-package emacs
   :mode (("Dockerfile\\(?:\\'\\|\\.[^z-a]\\)" . dockerfile-ts-mode)
          ("\\.tsx\\'" . tsx-ts-mode))
   :config
   (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
   (general-define-key
-    :prefix "C-é"
-    "C-b" 'previous-buffer
-    "C-p" 'next-buffer)
+   :prefix "C-é"
+   "C-b" 'previous-buffer
+   "C-p" 'next-buffer)
 
   :init
   (setq-default tab-always-indent 'complete
                 use-short-answers t
                 indent-tabs-mode nil))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values '((format-all-formatters ("Python" black isort)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
