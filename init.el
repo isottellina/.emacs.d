@@ -211,6 +211,8 @@
 (use-package terraform-mode)
 (use-package yaml-mode
   :mode ("\\.ya?ml" . yaml-mode))
+(use-package plantuml-mode
+  :mode ("\\.plantuml" . plantuml-mode))
 
 ;; Global config
 (use-package org
@@ -222,6 +224,7 @@
   :config
   (setq org-directory "/home/louise/org")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   :custom
   (org-agenda-files  '("/home/louise/org/agenda.org")))
 
