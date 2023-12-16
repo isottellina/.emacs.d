@@ -1,8 +1,32 @@
-;; Straight.el bootstrap
+;;;;;;;;;;;;;
+;; Custom  ;;
+;;;;;;;;;;;;;
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;;;;;;;;;;;;;;;;;;;;;;
+;; Init straight.el ;;
+;;;;;;;;;;;;;;;;;;;;;;
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -11,276 +35,90 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 (setq straight-use-package-by-default t)
+(straight-use-package 'use-package)
 
-;; Quality of life
-(use-package general)
-(use-package no-littering
-  :config
-  (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))))
-(use-package vterm)
-
-;; UI packages
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-
-(set-frame-font "PragmataPro Mono Liga 9")
-
-(column-number-mode)
-(global-display-line-numbers-mode)
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-(use-package all-the-icons-completion
-  :after (marginalia all-the-icons)
-  :if (display-graphic-p)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
-
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-italic t)
-  (load-theme 'doom-1337 t))
-
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '((recents . 5)
-                          (projects . 5)
-                          (agenda . 5))))
-
-(use-package marginalia
-  :config
-  (setq marginalia-align 'right)
-  :init
-  (marginalia-mode))
-
-(use-package vertico
-  :straight (vertico :files ("*.el" "extensions/*.el"))
-  :config
-  (setq vertico-resize nil
-        vertico-count 20
-        vertico-cycle t)
-  :init
-  (vertico-mode))
+;;;;;;;;;;;;;;;;;;;;;
+;; Basic UI config ;;
+;;;;;;;;;;;;;;;;;;;;;
 
 (use-package orderless
   :ensure t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic orderless partial-completion))))
-  (orderless-matching-styles
-   '(orderless-literal
-     orderless-prefixes
-     orderless-initialism
-     orderless-regexp)))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package vertico-directory
-                                        ; Package is in vertico, so straight will try to
-                                        ; install it via a repo but it shouldn't.
-  :straight nil
-  :after vertico
-  :bind (:map vertico-map
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word)))
-
-(use-package consult
-  :config
-  :init
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  :general
-  (general-define-key
-   "C-x b" 'consult-buffer
-   "C-c s" 'consult-ripgrep))
-
-(use-package xref
-  :general
-  (general-define-key
-   :prefix "C-c d"
-   "d" 'xref-find-definitions
-   "r" 'xref-find-references))
-
-(use-package embark)
-(use-package embark-consult)
-
-(use-package projectile
-  :config
-  (setq projectile-switch-project-action 'projectile-commander)
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+(use-package doom-themes
+  :init (load-theme 'doom-nord))
 
 (use-package which-key
-  :init
-  (which-key-mode))
+  :init (which-key-mode)
+  :config (setq which-key-add-column-padding 3))
+
+(use-package vertico
+  :init (vertico-mode)
+  :config (setq vertico-count 20
+		vertico-resize nil))
+
+(use-package all-the-icons-completion
+  :if (display-graphic-p)
+  :after marginalia
+  :config (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+  :init (all-the-icons-completion-mode))
+
+(use-package marginalia
+  :bind (:map minibuffer-local-map ("M-A" . marginalia-cycle))
+  :init (marginalia-mode))
+
+(use-package consult
+  :bind (([remap switch-to-buffer] . consult-buffer)
+	 ("C-x B" . consult-buffer-other-window)
+	 ("C-h t" . consult-theme))
+  :config (setq xref-show-xrefs-function #'consult-xref
+		xref-show-definitions-function #'consult-xref))
 
 (use-package ace-window
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-dispatch-always t)
-  :bind ("M-o" . ace-window))
+  :bind ("M-o" . ace-window)
+  :config (setq aw-dispatch-always t
+		aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
 
-;; DevX packages
-(add-hook 'before-save-hook 'whitespace-cleanup)
-(use-package magit
-  :bind
-  (:map vc-prefix-map ("B" . #'magit-blame-addition))
-  :config
-  (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1
-        magit-blame-echo-style 'headings
-        magit-blame-read-only t
-        magit-save-repository-buffers nil))
-
-(use-package forge
-  :after magit)
-(use-package ghub
-  :after ghub)
+;;;;;;;;;;;;;;;
+;; Dev setup ;;
+;;;;;;;;;;;;;;;
 
 (use-package corfu
-  :config
-  (setq corfu-auto t)
-  :init
-  (global-corfu-mode))
+  :init (global-corfu-mode)
+  :config (setq corfu-auto t))
 
-(use-package corfu-terminal
-  :init
-  (corfu-terminal-mode +1))
+(use-package magit
+  :bind ("C-x g" . magit))
 
-(use-package kind-icon
-  :after corfu
-  :custom
-  (kind-icon-use-icons t)
-  (kind-icon-default-face 'corfu-default)
-  (kind-icon-blend-background nil)
-  (kind-icon-blend-frac 0.08)
-  (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-  (add-hook 'kb/themes-hooks #'(lambda () (interactive) (kind-icon-reset-cache))))
+;;;;;;;;;;;;;;;;;;;;;
+;; Personal keymap ;;
+;;;;;;;;;;;;;;;;;;;;;
 
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs
-               '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
-  :hook ((python-mode . eglot-ensure)
-         (python-ts-mode . eglot-ensure)
-         (c++-mode . eglot-ensure)
-         (c++-ts-mode . eglot-ensure)
-         (rust-ts-mode . eglot-ensure)))
+(define-prefix-command 'personal-keymap 'personal-keymap)
+(bind-keys :map personal-keymap
+	   ("C-b" . previous-buffer)
+	   ("C-p" . next-buffer))
 
-(use-package format-all
-  :bind
-  ("C-c f" . format-all-buffer))
+(bind-key "C-é" #'personal-keymap)
 
-;; Python
-(use-package pyvenv
-  :config
-  (setenv "WORKON_HOME" "~/Envs"))
-
-
-(use-package py-isort
-  :commands py-isort-buffer)
-
-;; Web
-(use-package restclient
-  :mode ("\\.rc\\'" . restclient-mode))
-
-;; Rust
-(use-package rust-mode
-  :after eglot
-  :commands rust-mode
-  :hook (rust-mode . eglot-ensure))
-
-(use-package cargo
-  :after rust-mode
-  :commands cargo-minor-mode)
-
-;; C/C++
-(use-package cc-mode
-  :config
-  (setq c-basic-offset 4
-        c-default-style "k&r"))
-(use-package cmake-mode)
-
-;; Minor languages
-(use-package terraform-mode)
-(use-package yaml-mode
-  :mode ("\\.ya?ml" . yaml-mode))
-(use-package plantuml-mode
-  :mode ("\\.plantuml" . plantuml-mode))
-
-;; Global config
-(use-package org
-  :general
-  (general-define-key
-   :prefix "C-c n"
-   "c" 'org-capture
-   "a" 'org-agenda)
-  :config
-  (setq org-directory "/home/louise/org")
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  :custom
-  (org-agenda-files  '("/home/louise/org/agenda.org")))
-
-(use-package ligature
-  :config
-  (ligature-set-ligatures 't '("[ERROR]" "[DEBUG]" "[INFO]" "[WARN]" "[WARNING]"
-                               "[ERR]" "[FATAL]" "[TRACE]" "[FIXME]" "[TODO]"
-                               "[BUG]" "[NOTE]" "[HACK]" "[MARK]"))
-  (ligature-set-ligatures 'prog-mode
-                          '("!!" "!=" "!==" "!!!" "!≡" "!≡≡" "!>" "!=<" "#("
-                            "#_" "#{" "#?" "#>" "##" "#_(" "%=" "%>" "%>%" "%<%"
-                            "&%" "&&" "&*" "&+" "&-" "&/" "&=" "&&&" "&>" "$>"
-                            "***" "*=" "*/" "*>" "++" "+++" "+=" "+>" "++=" "--"
-                            "-<" "-<<" "-=" "->" "->>" "---" "-->" "-+-" "-\\/"
-                            "-|>" "-<|" ".." "..." "..<" ".>" ".~" ".=" "/*" "//"
-                            "/>" "/=" "/==" "///" "/**" ":::" "::" ":=" ":≡" ":>"
-                            ":=>" ":(" ":-(" ":)" ":-)" ":/" ":\\" ":3" ":D" ":P"
-                            ":>:" ":<:" "<$>" "<*" "<*>" "<+>" "<-" "<<" "<<<" "<<="
-                            "<=" "<=>" "<>" "<|>" "<<-" "<|" "<=<" "<~" "<~~" "<<~"
-                            "<$" "<+" "<!>" "<@>" "<#>" "<%>" "<^>" "<&>" "<?>" "<.>"
-                            "</>" "<\\>" "<\">" "<:>" "<~>" "<**>" "<<^" "<!" "<@"
-                            "<#" "<%" "<^" "<&" "<?" "<." "</" "<\\" "<\"" "<:" "<->"
-                            "<!--" "<--" "<~<" "<==>" "<|-" "<<|" "<-<" "<-->" "<<=="
-                            "<==" "=<<" "==" "===" "==>" "=>" "=~" "=>>" "=/=" "=~="
-                            "==>>" "≡≡" "≡≡≡" "≡:≡" ">-" ">=" ">>" ">>-" ">>=" ">>>"
-                            ">=>" ">>^" ">>|" ">!=" ">->" "??" "?~" "?=" "?>" "???"
-                            "?." "^=" "^." "^?" "^.." "^<<" "^>>" "^>" "\\\\" "\\>"
-                            "\\/-" "@>" "|=" "||" "|>" "|||" "|+|" "|->" "|-->" "|=>"
-                            "|==>" "|>-" "|<<" "||>" "|>>" "|-" "||-" "~=" "~>" "~~>"
-                            "~>>" "[[" "]]" "\">" "_|_"))
-  (global-ligature-mode))
+;;;;;;;;;;;;;;;;;;
+;; Emacs config ;;
+;;;;;;;;;;;;;;;;;;
 
 (use-package emacs
-  :mode (("Dockerfile\\(?:\\'\\|\\.[^z-a]\\)" . dockerfile-ts-mode)
-         ("\\.tsx\\'" . tsx-ts-mode))
   :config
-  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-  (general-define-key
-   :prefix "C-é"
-   "C-b" 'previous-buffer
-   "C-p" 'next-buffer)
-
-  :init
-  (setq-default tab-always-indent 'complete
-                use-short-answers t
-                indent-tabs-mode nil))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values '((format-all-formatters ("Python" black isort)))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (set-frame-font "Iosevka NF 10")
+  (global-display-line-numbers-mode)
+  (electric-pair-mode)
+  (recentf-mode 1)
+  (setq backup-directory-alist `(("." . ,(expand-file-name (concat user-emacs-directory "backups"))))
+	create-lockfiles nil
+	use-short-answers t)
+  (add-to-list 'auto-save-file-name-transforms `("\\`/\\(\\(?:[^/]*/\\)*[^/]*\\)\\'" ,(concat user-emacs-directory "backups/\\2") t)))
