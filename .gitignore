@@ -11,5 +11,7 @@ var
 tree-sitter
 backups
 recentf
+auto-save-list
+bookmarks
 
 projectile-bookmarks.eld

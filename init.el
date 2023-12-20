@@ -49,44 +49,11 @@
 
 (require 'module-system)
 
+(itln/load-modules keymap basic-ui minibuffer window project)
 
-;;;;;;;;;;;;;;;;;;;;;
-;; Basic UI config ;;
-;;;;;;;;;;;;;;;;;;;;;
-
-(itln/load-modules basic-ui minibuffer window project)
-
-
-;;;;;;;;;;;;;;;;;;;;;
-;; Personal keymap ;;
-;;;;;;;;;;;;;;;;;;;;;
-
-(define-prefix-command 'personal-keymap 'personal-keymap)
-(bind-keys :map personal-keymap
-	   ("C-b" . previous-buffer)
-	   ("C-p" . next-buffer))
-
-(bind-key "C-é" #'personal-keymap)
-
-(define-prefix-command 'itln/tools-keymap 'itln/tools-keymap)
-(bind-key "C-c o" #'itln/tools-keymap)
-
-;;;;;;;;;;;;;;;
-;; Dev setup ;;
-;;;;;;;;;;;;;;;
-
-(itln/load-modules completion git lsp term
+(itln/load-modules completion git lsp term org
 		   python rust elisp)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Display-buffer config ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package emacs
-  :config
-  (add-to-list 'display-buffer-alist `(,(regexp-opt '("*Warnings*" "*Messages*"))
-					       (display-buffer-in-side-window)
-					       (side . bottom))))
 
 ;;;;;;;;;;;;;;;;;;
 ;; Emacs config ;;

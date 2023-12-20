@@ -17,4 +17,8 @@
   (popper-mode +1)
   (popper-echo-mode +1))
 
+(use-package emacs
+  :config
+  (setq display-buffer-base-action '(display-buffer-in-direction . ((direction . right)))))
+
 (provide 'init-window)
