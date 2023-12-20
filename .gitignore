@@ -4,9 +4,12 @@ etc
 eshell
 projects
 straight
+elpaca
 tramp
 transient
 var
 tree-sitter
 backups
 recentf
+
+projectile-bookmarks.eld

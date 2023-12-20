@@ -17,82 +17,68 @@
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;
-;; Init straight.el ;;
+;; Init elpaca.el ;;
 ;;;;;;;;;;;;;;;;;;;;;;
+(defvar elpaca-installer-version 0.6)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name
-        "straight/repos/straight.el/bootstrap.el"
-        (or (bound-and-true-p straight-base-dir)
-            user-emacs-directory)))
-      (bootstrap-version 7))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(elpaca elpaca-use-package
+	(elpaca-use-package-mode)
+	(setq elpaca-use-package-by-default t))
 
-(setq straight-use-package-by-default t)
-(straight-use-package 'use-package)
+(elpaca-wait)
+
+;;;;;;;;;;;;;;;;;;
+;; Personal lib ;;
+;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'load-path (concat user-emacs-directory "lib"))
+(let ((default-directory (concat user-emacs-directory "modules")))
+  (normal-top-level-add-subdirs-to-load-path))
+
+(require 'module-system)
+
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Basic UI config ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-(use-package orderless
-  :ensure t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+(itln/load-modules basic-ui minibuffer window project)
 
-(use-package doom-themes
-  :init (load-theme 'doom-nord))
-
-(use-package which-key
-  :init (which-key-mode)
-  :config (setq which-key-add-column-padding 3))
-
-(use-package vertico
-  :init (vertico-mode)
-  :config (setq vertico-count 20
-		vertico-resize nil))
-
-(use-package all-the-icons-completion
-  :if (display-graphic-p)
-  :after marginalia
-  :config (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
-  :init (all-the-icons-completion-mode))
-
-(use-package marginalia
-  :bind (:map minibuffer-local-map ("M-A" . marginalia-cycle))
-  :init (marginalia-mode))
-
-(use-package consult
-  :bind (([remap switch-to-buffer] . consult-buffer)
-	 ("C-x B" . consult-buffer-other-window)
-	 ("C-h t" . consult-theme))
-  :config (setq xref-show-xrefs-function #'consult-xref
-		xref-show-definitions-function #'consult-xref))
-
-(use-package ace-window
-  :bind ("M-o" . ace-window)
-  :config (setq aw-dispatch-always t
-		aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
-
-;;;;;;;;;;;;;;;
-;; Dev setup ;;
-;;;;;;;;;;;;;;;
-
-(use-package corfu
-  :init (global-corfu-mode)
-  :config (setq corfu-auto t))
-
-(use-package magit
-  :bind ("C-x g" . magit))
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Personal keymap ;;
@@ -105,11 +91,44 @@
 
 (bind-key "C-é" #'personal-keymap)
 
+(define-prefix-command 'itln/tools-keymap 'itln/tools-keymap)
+(bind-key "C-c o" #'itln/tools-keymap)
+
+;;;;;;;;;;;;;;;
+;; Dev setup ;;
+;;;;;;;;;;;;;;;
+
+(itln/load-modules completion git lsp term
+		   python rust elisp)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Display-buffer config ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package emacs
+  :elpaca nil
+  :config
+  (add-to-list 'display-buffer-alist `(,(regexp-opt '("*Warnings*" "*Messages*"))
+					       (display-buffer-in-side-window)
+					       (side . bottom))))
+
 ;;;;;;;;;;;;;;;;;;
 ;; Emacs config ;;
 ;;;;;;;;;;;;;;;;;;
 
+(defvar itln-quit-hook nil)
+
+(defun itln/quit (&optional interactive)
+  (interactive '(interactive))
+  (let ((inhibit-quit t))
+    (cond ((run-hook-with-args-until-success 'itln-quit-hook))
+	  ((unwind-protect (keyboard-quit)
+	    (when interactive
+	      (setq this-command 'keyboard-quit)))))))
+
 (use-package emacs
+  :bind ([remap keyboard-quit] . itln/quit)
+  :elpaca nil
   :config
   (scroll-bar-mode -1)
   (menu-bar-mode -1)
@@ -118,7 +137,11 @@
   (global-display-line-numbers-mode)
   (electric-pair-mode)
   (recentf-mode 1)
+  (global-hl-line-mode)
   (setq backup-directory-alist `(("." . ,(expand-file-name (concat user-emacs-directory "backups"))))
 	create-lockfiles nil
-	use-short-answers t)
+	use-short-answers t
+	require-final-newline t
+	indent-tabs-mode nil
+	mode-require-final-newline t)
   (add-to-list 'auto-save-file-name-transforms `("\\`/\\(\\(?:[^/]*/\\)*[^/]*\\)\\'" ,(concat user-emacs-directory "backups/\\2") t)))
