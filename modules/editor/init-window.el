@@ -4,6 +4,7 @@
 		aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
 
 (use-package popper
+  :bind (("C-c C-z" . popper-toggle))
   :init
   (setq popper-reference-buffers '("\\*Messages\\*"
 				   "\\*Warnings\\*"
