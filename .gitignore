@@ -13,6 +13,8 @@ backups
 recentf
 auto-save-list
 bookmarks
+smudge
+request
 
 projectile-bookmarks.eld
 .org-id-locations

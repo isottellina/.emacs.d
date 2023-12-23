@@ -20,6 +20,7 @@
 
 (use-package emacs
   :config
-  (setq display-buffer-base-action '(display-buffer-in-direction . ((direction . right)))))
+  (setq display-buffer-base-action '(display-buffer-in-direction . ((direction . right))))
+  (add-to-list 'display-buffer-alist `(,(regexp-quote "*Org Agenda*") . (display-buffer-in-side-window . ((side . right))))))
 
 (provide 'init-window)

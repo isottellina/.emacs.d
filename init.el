@@ -52,7 +52,7 @@
 
 (itln/load-modules keymap basic-ui minibuffer window project)
 
-(itln/load-modules completion git lsp term org docker
+(itln/load-modules completion git lsp term org docker spotify
 		   python rust elisp)
 
 
@@ -86,5 +86,6 @@
 	use-short-answers t
 	require-final-newline t
 	indent-tabs-mode nil
-	mode-require-final-newline t)
+	mode-require-final-newline t
+	authinfo-hidden (regexp-opt '("password" "client-secret")))
   (add-to-list 'auto-save-file-name-transforms `("\\`/\\(\\(?:[^/]*/\\)*[^/]*\\)\\'" ,(concat user-emacs-directory "backups/\\2") t)))
