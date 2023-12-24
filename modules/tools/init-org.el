@@ -37,4 +37,7 @@
 				 "** TODO %?\n%a" :empty-lines-after 1 :clock-in t))
 	org-agenda-files '("todo.org" "agenda.org")))
 
+(use-package orgit
+  :after org)
+
 (provide 'init-org)

@@ -13,6 +13,8 @@
   :config (setq which-key-add-column-padding 3))
 
 (use-package ibuffer
+  :config
+  (unbind-key "M-o" 'ibuffer-mode-map)
   :bind ([remap list-buffers] . #'ibuffer-other-window))
 
 (use-package solaire-mode

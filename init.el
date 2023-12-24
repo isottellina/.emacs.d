@@ -37,7 +37,8 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
+(setq straight-use-package-by-default t
+      straight-host-usernames '((github . "isottellina")))
 
 
 ;;;;;;;;;;;;;;;;;;
@@ -52,7 +53,7 @@
 
 (itln/load-modules keymap basic-ui minibuffer window project)
 
-(itln/load-modules completion git lsp term org docker spotify
+(itln/load-modules completion git lsp term org docker spotify format
 		   python rust elisp)
 
 
