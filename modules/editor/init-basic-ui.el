@@ -6,7 +6,7 @@
   (dashboard-setup-startup-hook))
 
 (use-package doom-themes
-  :init (load-theme 'doom-nord))
+  :init (load-theme 'doom-ayu-mirage))
 
 (use-package which-key
   :init (which-key-mode)

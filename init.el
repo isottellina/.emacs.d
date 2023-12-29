@@ -8,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec" default))
+   '("6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec" default))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -54,7 +54,7 @@
 (itln/load-modules keymap basic-ui minibuffer window project)
 
 (itln/load-modules completion git lsp term org docker spotify format
-		   python rust elisp)
+		   python rust elisp yaml)
 
 
 ;;;;;;;;;;;;;;;;;;
@@ -77,7 +77,7 @@
   (scroll-bar-mode -1)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
-  (set-frame-font "Iosevka NF 10")
+  (set-frame-font "Hack 9")
   (global-display-line-numbers-mode)
   (electric-pair-mode)
   (recentf-mode 1)
