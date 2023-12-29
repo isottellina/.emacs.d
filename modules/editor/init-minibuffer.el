@@ -34,4 +34,9 @@
   :config (setq xref-show-xrefs-function #'consult-xref
 		xref-show-definitions-function #'consult-xref))
 
+(use-package consult
+  :after projectile
+  :bind (:map projectile-command-map ("s" . consult-ripgrep)))
+
+
 (provide 'init-minibuffer)
