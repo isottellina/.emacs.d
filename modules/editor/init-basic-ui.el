@@ -21,4 +21,13 @@
   :config
   (solaire-global-mode +1))
 
+(defun itln/move-beginning-of-indent-or-line (prefix)
+  (interactive "P")
+  (if prefix
+    (beginning-of-line)
+    (beginning-of-line-text)))
+
+(use-package emacs
+  :bind ([remap move-beginning-of-line] . itln/move-beginning-of-indent-or-line))
+
 (provide 'init-basic-ui)
