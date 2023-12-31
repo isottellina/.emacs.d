@@ -27,4 +27,9 @@ that has a Cargo.toml at the root of it."
   :after cargo
   :hook (magit-mode . magit-cargo-mode-if-rust-project))
 
+(use-package devdocs
+  :after rust-mode
+  :config
+  (add-hook 'rust-mode-hook (lambda () (setq-local devdocs-current-docs '("rust")))))
+
 (provide 'init-rust)

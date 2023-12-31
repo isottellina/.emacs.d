@@ -11,6 +11,7 @@
 				   "Output\\*$"
 				   "\\*Async Shell Command\\*"
 				   "\\*Cargo [[:alpha:]]+\\*"
+				   "\\*devdocs\\*"
 				   help-mode
 				   compilation-mode
 				   "^\\*eshell.*\\*$" eshell-mode
@@ -22,6 +23,6 @@
 (use-package emacs
   :config
   (setq display-buffer-base-action '(display-buffer-in-direction . ((direction . rightmost))))
-  (add-to-list 'display-buffer-alist `(,(regexp-quote "*Org Agenda*") . (display-buffer-in-side-window . ((side . right))))))
+  (add-to-list 'display-buffer-alist `(,(regexp-opt '("*Org Agenda*" "*Agenda Commands*")) . (display-buffer-in-side-window . ((side . right))))))
 
 (provide 'init-window)

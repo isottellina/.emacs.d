@@ -35,6 +35,8 @@
 				("c" "TODO list and clock in immediately"
 				 entry (file+headline ,itln/org-todo-file "Inbox")
 				 "** TODO %?\n%a" :empty-lines-after 1 :clock-in t))
+	org-agenda-custom-commands '(("g" "View tasks per todo tag"
+				      ((todo "TODO") (todo "DONE"))))
 	org-agenda-files '("todo.org" "agenda.org")))
 
 (use-package orgit
