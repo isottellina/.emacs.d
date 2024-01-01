@@ -1,6 +1,8 @@
 (use-package python-mode
   :hook (python-mode . eglot-ensure))
 
+(use-package pyvenv)
+
 (use-package devdocs
   :after python-mode
   :config
