@@ -42,4 +42,13 @@
 (use-package orgit
   :after org)
 
+(use-package ox-hugo)
+
+(use-package ox-zola
+  :after ox-hugo
+  :straight (ox-zola :host github :repo "gicrisf/ox-zola"
+		     :files (:defaults "*.el" "backend" "stylesheets")
+		     :includes ox-hugo)
+  :config (require 'ox-hugo))
+
 (provide 'init-org)

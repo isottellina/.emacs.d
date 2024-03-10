@@ -12,6 +12,7 @@
 				   "\\*Async Shell Command\\*"
 				   "\\*Cargo [[:alpha:]]+\\*"
 				   "\\*devdocs\\*"
+				   "\\*ielm\\*"
 				   help-mode
 				   compilation-mode
 				   "^\\*eshell.*\\*$" eshell-mode

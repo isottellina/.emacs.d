@@ -17,6 +17,9 @@
   (unbind-key "M-o" 'ibuffer-mode-map)
   :bind ([remap list-buffers] . #'ibuffer-other-window))
 
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
 (use-package solaire-mode
   :config
   (solaire-global-mode +1))

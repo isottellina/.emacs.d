@@ -1,8 +1,8 @@
-;;; init-web.el --- Web-mode                         -*- lexical-binding: t; -*-
+;;; init-devops.el --- Various modes for devops stuff  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024  Louise 
+;; Copyright (C) 2024  Louise
 
-;; Author: Louise  <louise@Lovelace>
+;; Author: Louise <louise@Lovelace>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,12 +24,7 @@
 
 ;;; Code:
 
-(use-package web-mode
-  :mode "\\.html\\'"
-  :config (setq web-mode-enable-engine-detection t
-		web-mode-markup-indent-offset 2
-		web-mode-css-indent-offset 2
-		web-mode-code-indent-offset 2))
+(use-package hcl-mode)
 
-(provide 'init-web)
-;;; init-web.el ends here
+(provide 'init-devops)
+;;; init-devops.el ends here

@@ -1,4 +1,5 @@
 (use-package rust-mode
+  :mode (".rs" . rust-mode)
   :hook (rust-mode . eglot-ensure))
 
 (defvar magit-cargo-map (make-sparse-keymap))
