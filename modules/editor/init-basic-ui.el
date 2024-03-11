@@ -20,6 +20,10 @@
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
+(use-package hl-todo
+  :ensure t
+  :init (global-hl-todo-mode))
+
 (use-package solaire-mode
   :config
   (solaire-global-mode +1))
