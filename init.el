@@ -54,7 +54,7 @@
 
 (itln/load-modules keymap basic-ui minibuffer window project)
 
-(itln/load-modules completion git lsp term org docker spotify format doc
+(itln/load-modules completion git lsp term org docker spotify format doc rest
 		   devops python rust elisp yaml web)
 
 

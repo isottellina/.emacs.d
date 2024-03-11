@@ -1,8 +1,8 @@
-;;; init-format.el --- Formatters for my code        -*- lexical-binding: t; -*-
+;;; init-rest.el --- Perform REST requests           -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2023  Louise
+;; Copyright (C) 2024  
 
-;; Author: Louise <louise@Lovelace>
+;; Author:  <louise@Avram>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,13 +24,8 @@
 
 ;;; Code:
 
-(use-package apheleia
-  :bind (:map prog-mode-map ("C-c c f" . apheleia-format-buffer))
-  :config
-  (setf (alist-get 'ruff apheleia-formatters) '("ruff" "--fix-only" "-"))
-  (setf (alist-get 'ruff-format apheleia-formatters) '("ruff" "format" "-"))
-  (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff ruff-format))
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff ruff-format)))
+(use-package restclient
+  :mode ("\\.rc\\'" . restclient-mode))
 
-(provide 'init-format)
-;;; init-format.el ends here
+(provide 'init-rest)
+;;; init-rest.el ends here
