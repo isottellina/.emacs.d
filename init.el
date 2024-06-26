@@ -8,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec" default))
+   '("f12083eec1537fc3bf074366999f0ee04ab23ab3eaba57614785d88b9db2a5d4" "4343cbc036f09361b2912119c63573433df725f599bfbdc16fb97f1e4847a08b" "c24f30a80f5d8f4f3a6b729510d1bf282dd7fac7969748a5e43fc8c6a836eee7" "6f1f6a1a3cff62cc860ad6e787151b9b8599f4471d40ed746ea2819fcd184e1a" "34cf3305b35e3a8132a0b1bdf2c67623bc2cb05b125f8d7d26bd51fd16d547ec" default))
  '(safe-local-variable-values '((engine . jinja2) (engine . django) (engine . jinja)))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
@@ -69,8 +69,8 @@
   (let ((inhibit-quit t))
     (cond ((run-hook-with-args-until-success 'itln-quit-hook))
 	  ((unwind-protect (keyboard-quit)
-	    (when interactive
-	      (setq this-command 'keyboard-quit)))))))
+	     (when interactive
+	       (setq this-command 'keyboard-quit)))))))
 
 (use-package emacs
   :bind ([remap keyboard-quit] . itln/quit)

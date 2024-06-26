@@ -5,8 +5,13 @@
   (setq dashboard-center-content t)
   (dashboard-setup-startup-hook))
 
-(use-package doom-themes
-  :init (load-theme 'doom-ayu-mirage))
+
+(use-package myron-themes
+  :straight (myron-themes :host github :repo "neeasade/myron-themes" :files ("*.el" "themes/*.el")))
+
+(use-package ef-themes
+  :init
+  (load-theme 'ef-summer))
 
 (use-package which-key
   :init (which-key-mode)
@@ -20,6 +25,9 @@
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
 
+(use-package avy
+  :bind ("M-s M-s" . 'avy-goto-char-timer))
+
 (use-package hl-todo
   :ensure t
   :init (global-hl-todo-mode))
@@ -31,7 +39,7 @@
 (defun itln/move-beginning-of-indent-or-line (prefix)
   (interactive "P")
   (if prefix
-    (beginning-of-line)
+      (beginning-of-line)
     (beginning-of-line-text)))
 
 (use-package emacs
