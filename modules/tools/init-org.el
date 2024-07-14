@@ -36,8 +36,9 @@
 				 entry (file+headline ,itln/org-todo-file "Inbox")
 				 "** TODO %?\n%a" :empty-lines-after 1 :clock-in t))
 	org-agenda-custom-commands '(("g" "View tasks per todo tag"
-				      ((todo "TODO") (todo "DONE"))))
-	org-agenda-files '("todo.org" "agenda.org")))
+				      ((todo "BACKLOG") (todo "TODO") (todo "IN PROGRESS") (todo "DONE"))))
+	org-agenda-files '("todo.org" "agenda.org")
+	org-todo-keywords '((sequence "BACKLOG" "TODO" "IN PROGRESS" "|" "DONE"))))
 
 (use-package orgit
   :after org)

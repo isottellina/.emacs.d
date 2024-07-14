@@ -54,8 +54,8 @@
 
 (itln/load-modules keymap basic-ui minibuffer window project)
 
-(itln/load-modules completion git lsp term org docker spotify format doc rest
-		   devops python rust elisp yaml web)
+(itln/load-modules completion git lsp term org docker spotify format doc rest make
+		   devops python rust elisp yaml web asm)
 
 
 ;;;;;;;;;;;;;;;;;;
@@ -91,3 +91,4 @@
 	mode-require-final-newline t
 	authinfo-hidden (regexp-opt '("password" "client-secret")))
   (add-to-list 'auto-save-file-name-transforms `("\\`/\\(\\(?:[^/]*/\\)*[^/]*\\)\\'" ,(concat user-emacs-directory "backups/\\2") t)))
+(put 'magit-edit-line-commit 'disabled nil)
