@@ -6,14 +6,15 @@
   (dashboard-setup-startup-hook))
 
 
-(use-package myron-themes
-  :straight (myron-themes :host github :repo "neeasade/myron-themes" :files ("*.el" "themes/*.el")))
+;; (use-package myron-themes
+;;   :straight (myron-themes :host github :repo "neeasade/myron-themes" :files ("*.el" "themes/*.el")))
 
 (use-package which-key
   :init (which-key-mode)
   :config (setq which-key-add-column-padding 3))
 
 (use-package ibuffer
+  :ensure nil
   :config
   (unbind-key "M-o" 'ibuffer-mode-map)
   :bind ([remap list-buffers] . #'ibuffer-other-window))
@@ -50,6 +51,7 @@
     (beginning-of-line-text)))
 
 (use-package emacs
+  :ensure nil
   :bind ([remap move-beginning-of-line] . itln/move-beginning-of-indent-or-line))
 
 (provide 'init-basic-ui)

@@ -42,6 +42,7 @@
   (consult-ripgrep (read-directory-name "Directory to search in? ")))
 
 (use-package consult
+  :ensure nil
   :after projectile
   :bind (("C-c s" . consult-ripgrep-asks-directory)
 	 :map projectile-command-map ("s" . consult-ripgrep)))

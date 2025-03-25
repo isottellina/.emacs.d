@@ -1,3 +1,5 @@
+(use-package transient)
+
 (use-package magit
   :bind ("C-x g" . magit)
   :init (setq magit-define-global-key-bindings 'recommended)

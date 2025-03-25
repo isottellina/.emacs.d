@@ -23,6 +23,7 @@
   (popper-echo-mode +1))
 
 (use-package emacs
+  :ensure nil
   :bind (("C-<next>" . tab-next)
 	 ("C-<prior>" . tab-previous))
   :config
