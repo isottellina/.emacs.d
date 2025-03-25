@@ -43,13 +43,16 @@
 (use-package orgit
   :after org)
 
-(use-package ox-hugo)
-
-(use-package ox-zola
-  :after ox-hugo
-  :straight (ox-zola :host github :repo "gicrisf/ox-zola"
-		     :files (:defaults "*.el" "backend" "stylesheets")
-		     :includes ox-hugo)
-  :config (require 'ox-hugo))
+(use-package org-roam
+  :config
+  (setq org-roam-directory (file-truename "~/org/roam")
+	org-roam-node-display-template
+        (concat "${title:*} "
+                (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  :bind (:map itln/org-keymap
+	      ("r c" . org-roam-capture)
+	      ("r f" . org-roam-node-find)
+	      ("r i" . org-roam-node-insert)))
 
 (provide 'init-org)

@@ -4,7 +4,10 @@
 		aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l ?m)))
 
 (use-package popper
-  :bind (("C-c C-z" . popper-toggle))
+  :bind (("C-c C-z" . popper-cycle)
+	 :map personal-keymap
+	 ("C-t" . popper-toggle)
+	 ("C-S-T" . popper-toggle-type))
   :init
   (setq popper-reference-buffers '("\\*Messages\\*"
 				   "\\*Warnings\\*"

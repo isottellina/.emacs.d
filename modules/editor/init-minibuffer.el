@@ -28,15 +28,22 @@
 
 
 (use-package consult
+  :demand t
   :bind (([remap switch-to-buffer] . consult-buffer)
+	 ([remap imenu] . consult-imenu)
 	 ("C-x B" . consult-buffer-other-window)
 	 ("C-h t" . consult-theme))
   :config (setq xref-show-xrefs-function #'consult-xref
 		xref-show-definitions-function #'consult-xref))
 
+(defun consult-ripgrep-asks-directory ()
+  "Asks for a directory then searches in that directory"
+  (interactive)
+  (consult-ripgrep (read-directory-name "Directory to search in? ")))
+
 (use-package consult
   :after projectile
-  :bind (:map projectile-command-map ("s" . consult-ripgrep)))
-
+  :bind (("C-c s" . consult-ripgrep-asks-directory)
+	 :map projectile-command-map ("s" . consult-ripgrep)))
 
 (provide 'init-minibuffer)

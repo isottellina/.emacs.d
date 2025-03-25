@@ -27,7 +27,7 @@
 (use-package apheleia
   :bind (:map prog-mode-map ("C-c c f" . apheleia-format-buffer))
   :config
-  (setf (alist-get 'ruff apheleia-formatters) '("ruff" "--fix-only" "-"))
+  (setf (alist-get 'ruff apheleia-formatters) '("ruff" "check" "--fix-only" "-"))
   (setf (alist-get 'ruff-format apheleia-formatters) '("ruff" "format" "-"))
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff ruff-format))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff ruff-format)))
